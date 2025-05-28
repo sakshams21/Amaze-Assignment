@@ -12,16 +12,16 @@ public class AnimationEventListener : MonoBehaviour
 
     public void OnSecondaryAttackEnd()
     {
-        IsAttacking=false;
+        IsAttacking = false;
     }
 
     public void OnSwordColliderEnable()
     {
-
+        GameManager.Instance.ChangeWeaponComponentStatus(true);
     }
 
     public void OnSwordColliderDisable()
     {
-
+        GameManager.Instance.ChangeWeaponComponentStatus(false);
     }
 }

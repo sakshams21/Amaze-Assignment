@@ -244,18 +244,23 @@ namespace StarterAssets
 
         private void Attack()
         {
-
             if (_input.primaryAttack)
             {
                 _animator.SetTrigger(_animIDPrimaryAttack);
                 _animEventListener.IsAttacking = true;
                 _input.primaryAttack = false;
+                GameManager.Instance.SetCurrentAttack(AttacType.Primary);
             }
             else if (_input.secondaryAttack)
             {
                 _animator.SetTrigger(_animIDSecondaryAttack);
                 _animEventListener.IsAttacking = true;
                 _input.secondaryAttack = false;
+                GameManager.Instance.SetCurrentAttack(AttacType.Secondary);
+            }
+            else
+            {
+                GameManager.Instance.SetCurrentAttack(AttacType.None);
             }
         }
 
