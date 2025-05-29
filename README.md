@@ -11,7 +11,8 @@ Develop an AI system in Unity Engine where enemies respond differently to light 
 ---
 ## 📹 Gameplay Demo
 
-> 📺 [https://youtu.be/hGBcXJ16TSc](#)
+[![Watch the video](https://img.youtube.com/vi/hGBcXJ16TSc/0.jpg)](https://www.youtube.com/watch?v=hGBcXJ16TSc)
+
 
 ---
 
