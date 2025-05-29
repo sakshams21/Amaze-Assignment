@@ -2,65 +2,67 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-
-public class EnemyPoolManager : MonoBehaviour
+namespace Amaze
 {
-
-    [SerializeField] private EnemyController EnemyPrefab;
-
-    private Queue<EnemyController> _enemyPool = new Queue<EnemyController>();
-
-    private int _initialPoolSize = 10;
-
-    private async void Start()
+    public class EnemyPoolManager : MonoBehaviour
     {
-        EventManager.OnEnemyDeath += BackToPool;
-        await InitializePoolAsync(_initialPoolSize);        
-    }
 
-    private void OnDestroy()
-    {
-        EventManager.OnEnemyDeath -= BackToPool;
-    }
+        [SerializeField] private EnemyController EnemyPrefab;
 
-    private async Task InitializePoolAsync(int count)
-    {
-        AsyncInstantiateOperation<EnemyController> handle = InstantiateAsync(EnemyPrefab, _initialPoolSize, transform);
-        await handle;
+        private Queue<EnemyController> _enemyPool = new Queue<EnemyController>();
 
-        if (handle.isDone)
+        private int _initialPoolSize = 10;
+
+        private async void Start()
         {
-            foreach (var item in handle.Result)
+            EventManager.OnEnemyDeath += BackToPool;
+            await InitializePoolAsync(_initialPoolSize);
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.OnEnemyDeath -= BackToPool;
+        }
+
+        private async Task InitializePoolAsync(int count)
+        {
+            AsyncInstantiateOperation<EnemyController> handle = InstantiateAsync(EnemyPrefab, _initialPoolSize, transform);
+            await handle;
+
+            if (handle.isDone)
             {
-                item.gameObject.SetActive(false);
-                _enemyPool.Enqueue(item);
+                foreach (var item in handle.Result)
+                {
+                    item.gameObject.SetActive(false);
+                    _enemyPool.Enqueue(item);
+                }
+
             }
-          
+            else
+            {
+                Debug.LogError("Failed to instantiate enemy prefab.");
+            }
         }
-        else
+
+
+        public EnemyController GetFromPool()
         {
-            Debug.LogError("Failed to instantiate enemy prefab.");
+            if (_enemyPool.Count == 0)
+            {
+                EnemyController newEnemy = Instantiate(EnemyPrefab, transform);
+                newEnemy.gameObject.SetActive(false);
+                return newEnemy;
+            }
+
+            return _enemyPool.Dequeue();
         }
-    }
 
 
-    public EnemyController GetFromPool()
-    {
-        if (_enemyPool.Count == 0)
+        public void BackToPool(EnemyController enemy)
         {
-            EnemyController newEnemy = Instantiate(EnemyPrefab, transform);
-            newEnemy.gameObject.SetActive(false);
-            return newEnemy;
+            enemy.gameObject.SetActive(false);
+            _enemyPool.Enqueue(enemy);
         }
 
-        return _enemyPool.Dequeue();
     }
-
-
-    public void BackToPool(EnemyController enemy)
-    {
-        enemy.gameObject.SetActive(false);
-        _enemyPool.Enqueue(enemy);
-    }
-
 }

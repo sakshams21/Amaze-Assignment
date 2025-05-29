@@ -1,26 +1,29 @@
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+namespace Amaze
 {
-    private BoxCollider m_Collider;
-
-    private void Start()
+    public class Weapon : MonoBehaviour
     {
-        m_Collider = GetComponent<BoxCollider>();
-    }
+        private BoxCollider m_Collider;
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        private void Start()
         {
-            EnemyController enemy=other.GetComponentInParent<EnemyController>();
+            m_Collider = GetComponent<BoxCollider>();
+        }
 
-            if (enemy != null)
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Enemy"))
             {
-                enemy.Hit(GameManager.Instance.CurrentAttack);
-                EventManager.TriggerEnemyHitEvent(other.ClosestPoint(transform.position));
-                m_Collider.enabled = false;
+                EnemyController enemy = other.GetComponentInParent<EnemyController>();
+
+                if (enemy != null)
+                {
+                    enemy.Hit(GameManager.Instance.CurrentAttack);
+                    EventManager.TriggerEnemyHitEvent(other.ClosestPoint(transform.position));
+                    m_Collider.enabled = false;
+                }
             }
         }
     }

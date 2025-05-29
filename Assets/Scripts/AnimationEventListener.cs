@@ -1,27 +1,31 @@
 using UnityEngine;
 
-public class AnimationEventListener : MonoBehaviour
+namespace Amaze
 {
-    public bool IsAttacking;
 
-
-    public void OnPrimaryAttackEnd()
+    public class AnimationEventListener : MonoBehaviour
     {
-        IsAttacking = false;
-    }
+        public bool IsAttacking;
 
-    public void OnSecondaryAttackEnd()
-    {
-        IsAttacking = false;
-    }
 
-    public void OnSwordColliderEnable()
-    {
-        GameManager.Instance.ChangeWeaponComponentStatus(true);
-    }
+        public void OnPrimaryAttackEnd()
+        {
+            IsAttacking = false;
+        }
 
-    public void OnSwordColliderDisable()
-    {
-        GameManager.Instance.ChangeWeaponComponentStatus(false);
+        public void OnSecondaryAttackEnd()
+        {
+            IsAttacking = false;
+        }
+
+        public void OnSwordColliderEnable()
+        {
+            GameManager.Instance.ChangeWeaponComponentStatus(true);
+        }
+
+        public void OnSwordColliderDisable()
+        {
+            GameManager.Instance.ChangeWeaponComponentStatus(false);
+        }
     }
 }
