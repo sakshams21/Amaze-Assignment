@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour
             if (enemy != null)
             {
                 enemy.Hit(GameManager.Instance.CurrentAttack);
-                EventManager.TriggerEnemyHit(other.ClosestPoint(transform.position));
+                EventManager.TriggerEnemyHitEvent(other.ClosestPoint(transform.position));
                 m_Collider.enabled = false;
             }
         }
